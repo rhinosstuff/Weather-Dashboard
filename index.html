@@ -9,30 +9,77 @@
   <title>Weather Dashboard</title>
 </head>
 <body>
-  <div class="form-container">
-    <form class="row g-3 needs-validation" novalidate>
-      <div class="col-md-6">
-        <label for="validationCustom03" class="form-label">City</label>
-        <input type="text" class="form-control" id="validationCustom03" required>
-        <div class="invalid-feedback">
-          Please provide a valid city.
+  <header class="container">
+    Weather Dashboard
+  </header>
+  <main class="container d-flex m-0">
+    <div class="container col-4">
+      <form class="needs-validation col-12" novalidate>
+        <div class="col-12">
+          <label for="city-name" class="form-label col-12">City</label>
+          <input type="text" class="form-control col-12" id="city-name" required>
+          <div class="invalid-feedback col-12">
+            Please provide a valid city.
+          </div>
+        </div>
+        <div class="col-12">
+          <button class="btn btn-primary col-12" type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="row container">
+      <div class="card container col-12 mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         </div>
       </div>
-      <div class="col-md-3">
-        <label for="validationCustom04" class="form-label">State</label>
-        <select class="form-select" id="validationCustom04" required>
-          <option selected disabled value="">Choose...</option>
-          <option>UT</option>
-        </select>
-        <div class="invalid-feedback">
-          Please select a valid state.
+  
+      <div class="card container col-2">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         </div>
       </div>
-      <div class="col-12">
-        <button class="btn btn-primary" type="submit">Submit</button>
+
+      <div class="card container col-2">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
       </div>
-    </form>
-  </div>
+
+      <div class="card container col-2">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+
+      <div class="card container col-2">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+
+      <div class="card container col-2">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+
+    </div>
+  
+  </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
   integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
