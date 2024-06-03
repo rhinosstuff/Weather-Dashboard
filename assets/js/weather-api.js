@@ -19,32 +19,10 @@ function displayWeather(lat, lon) {
         return
       }
       const forecastList = data.list
-      console.log(forecastList.length)
-
-      for (let i = 0; i < 2; i++) {
-        let forecast = forecastList[i]
-        console.log(`Date and Time: ${forecast.dt_txt}`);
-        console.log(`Temperature: ${forecast.main.temp} °F`);
-        console.log(`Weather: ${forecast.weather[0].description}`);
-        console.log(`Weather icon: ${forecast.weather[0].icon}`);
-        console.log('---');
-      }
-      
-      // Example: Iterate over the forecast data and log details
-      // forecastList.forEach(forecast => {
-
-      //   console.log(`Date and Time: ${forecast.dt_txt}`);
-      //   console.log(`Temperature: ${forecast.main.temp}`);
-      //   console.log(`Weather: ${forecast.weather[0].description}`);
-      //   console.log(`Weather icon: ${forecast.weather[0].icon}`);
-      //   console.log('---');
-      // });
-      
+      filterForecastList(forecastList)
     })
     .catch(error => {
       // Handle any errors that occurred during the fetch
       console.error('There was a problem with the fetch operation:', error)
     })
 }
-
-// 2024-06-07 09:00:00
