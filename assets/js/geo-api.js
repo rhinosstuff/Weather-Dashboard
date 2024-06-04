@@ -1,11 +1,10 @@
-// Function to perform a search using the OpenWeather API
+// Function to perform a search using the OpenWeather Geocoder API
 function findCity(cityQuery) {
   const limit =  1
   const apiKey = '0f0384b7e7c02ebf2aa05a20848b3b55'
   const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityQuery}&limit=${limit}&appid=${apiKey}`
 
   console.log('geoURL: ', geoUrl)
-  // Perform the fetch request
   fetch(geoUrl)
     .then(response => {
       if (!response.ok) {
