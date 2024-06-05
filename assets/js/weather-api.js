@@ -1,6 +1,5 @@
-// Function to perform a search using the OpenWeather 5-Day Forecast API
-
-function displayWeather(lat, lon) {
+// Searches OpenWeather 5-Day Forecast API based on 'latitude' & 'longitude'
+function getForecast(lat, lon) { 
   const units = 'imperial'
   const apiKey = '0f0384b7e7c02ebf2aa05a20848b3b55'
   const weatherUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`

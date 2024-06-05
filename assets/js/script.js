@@ -1,3 +1,5 @@
+let currentCity = JSON.parse(localStorage.getItem('currentCity'))
+
 document.addEventListener('DOMContentLoaded', function() {
   let form = document.querySelector('.needs-validation')
   
@@ -8,19 +10,19 @@ document.addEventListener('DOMContentLoaded', function() {
       if (form.checkValidity()) {
           let cityName = document.getElementById('city-name').value.trim()
           findCity(cityName)
+          document.getElementById('city-name').value = ''
       } else {
           form.classList.add('was-validated')
       }
   }, false)
 })
 
-function renderForecastList() {
+function renderForecast() {
   let city = 'St George'
   if (savedCities !== null) {
-    city = savedCities[savedCities.length-1]
-    console.log('Last city entered: ', savedCities[savedCities.length-1])
+    city = currentCity
+    console.log('Last city entered: ', currentCity)
   }
-  console.log('This is the city: ', city)
   findCity(city)
 }
 
@@ -39,55 +41,81 @@ function convertDate(unixTimestamp) {
   return formattedDate
 }
 
+function displayForecast(filteredForecast) {
+  const display= document.getElementById('forecast-container')
+  display.innerHTML = ''
+
+  for (let i = 0; i < filteredForecast.length; i++) {
+    let forecast = filteredForecast[i]
+    let dateOne = forecast.dt
+    dateOne = convertDate(dateOne)
+
+    let cardContainer = document.createElement('div')
+    let cardBody = document.createElement('div')
+    let date = document.createElement('h5')
+    let icon = document.createElement('img')
+    let temp = document.createElement('h6')
+    let wind = document.createElement('h6')
+    let humi = document.createElement('h6')
+    if (i === 0) {
+      cardContainer.classList = 'card container col-12 mb-4'
+      date.textContent = `${JSON.parse(localStorage.getItem('currentCity'))} (${dateOne})`
+      icon.classList = 'icon'
+      cardBody.append(date)
+      date.append(icon)  
+    } else {
+      cardContainer.classList = 'card container col-lg-2 col-12 m-0'
+      date.textContent = `${dateOne}`
+      icon.classList = 'icon mb-4'
+      cardBody.append(date)
+      cardBody.append(icon)
+    }
+    cardBody.classList = 'card-body'
+    date.classList = 'date card-title mb-4 text-nowrap'
+    icon.src = `https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`
+    icon.alt = forecast.weather[0].description
+    temp.classList = 'temp card-subtitle mb-4 text-muted text-nowrap'
+    temp.textContent = `Temp: ${forecast.main.temp} °F`
+    wind.classList = 'wind card-subtitle mb-4 text-muted text-nowrap'
+    wind.textContent = `Wind: ${forecast.wind.speed} MPH`
+    humi.classList = 'humi card-subtitle text-muted text-nowrap'
+    humi.textContent = `Humidity: ${forecast.main.humidity} %`
+    
+    display.append(cardContainer)
+    cardContainer.append(cardBody)
+    cardBody.append(temp)
+    cardBody.append(wind)
+    cardBody.append(humi)
+  }
+}
+
 function filterForecastList(forecastList) {
   let dateTwo = '0000-00-00'
-  const display= document.getElementById('forecast-container')
-  display.innerHTML = '';
+  let filteredForecast = []
+  
   for (let i = 0; i < forecastList.length; i++) {
     let forecast = forecastList[i]
     let dateOne = forecast.dt
+    let time = forecast.dt_txt.split(' ')[1]
 
     dateOne = convertDate(dateOne)
     
     if (dateOne !== dateTwo) {
-      console.log(forecast)
-      dateTwo = dateOne
-      let cardContainer = document.createElement('div')
-      let cardBody = document.createElement('div')
-      let date = document.createElement('h5')
-      let icon = document.createElement('h6')
-      let temp = document.createElement('h6')
-      let wind = document.createElement('h6')
-      let humi = document.createElement('h6')
-      if (i === 0) {
-        cardContainer.classList = 'card container col-12 mb-4'  
-      } else {
-        cardContainer.classList = 'card container col-lg-2 col-12 m-0'
+      if (i === 0 || time === '15:00:00') {
+        dateTwo = dateOne
+        filteredForecast.push(forecastList[i])
       }
-      cardBody.classList = 'card-body'
-      date.classList = 'date card-title mb-4 text-nowrap'
-      date.textContent = `${dateOne}`
-      icon.classList = 'icon card-subtitle mb-4 text-muted text-nowrap'
-      icon.textContent = `${forecast.weather[0].icon}`
-      temp.classList = 'temp card-subtitle mb-4 text-muted text-nowrap'
-      temp.textContent = `Temp: ${forecast.main.temp} °F`
-      wind.classList = 'wind card-subtitle mb-4 text-muted text-nowrap'
-      wind.textContent = `Wind: ${forecast.wind.speed} MPH`
-      humi.classList = 'humi card-subtitle text-muted text-nowrap'
-      humi.textContent = `Humidity: ${forecast.main.humidity} %`
-      
-      display.append(cardContainer)
-      cardContainer.append(cardBody)
-      cardBody.append(date)
-      cardBody.append(icon)
-      cardBody.append(temp)
-      cardBody.append(wind)
-      cardBody.append(humi)
     } 
   }
+  console.log(filteredForecast)
+  displayForecast(filteredForecast)
 }
 
-// Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
+function displaySavedCities () {
+  let cities = JSON.parse(localStorage.getItem('savedCities')) 
+  
+}
+
 document.addEventListener('DOMContentLoaded', function () {
-  renderForecastList()
+  renderForecast()
 })
