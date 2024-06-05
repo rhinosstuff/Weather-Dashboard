@@ -1,4 +1,5 @@
 // Function to perform a search using the OpenWeather 5-Day Forecast API
+
 function displayWeather(lat, lon) {
   const units = 'imperial'
   const apiKey = '0f0384b7e7c02ebf2aa05a20848b3b55'
@@ -15,8 +16,8 @@ function displayWeather(lat, lon) {
       if (!data || data.length === 0) {
         return
       }
-      const forecastList = data.list
-      filterForecastList(forecastList)
+      
+      filterForecastList(data.list)
     })
     .catch(error => {
       // Handle any errors that occurred during the fetch
