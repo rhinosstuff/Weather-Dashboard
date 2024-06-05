@@ -1,10 +1,11 @@
+let savedCities = JSON.parse(localStorage.getItem('savedCities'))
+
 // Function to perform a search using the OpenWeather Geocoder API
 function findCity(cityQuery) {
   const limit =  1
   const apiKey = '0f0384b7e7c02ebf2aa05a20848b3b55'
   const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityQuery}&limit=${limit}&appid=${apiKey}`
 
-  console.log('geoURL: ', geoUrl)
   fetch(geoUrl)
     .then(response => {
       if (!response.ok) {
@@ -18,15 +19,23 @@ function findCity(cityQuery) {
         return
       }
       
+      let city = data[0].name
       let lat = data[0].lat.toString()
       let lon = data[0].lon.toString()
-      displayWeather(lat, lon)
 
-      console.log(`City Name: ${data[0].name}`)
-      console.log(`City Latitude: ${lat}`)
-      console.log(`City Longitude: ${lon}`)
+      let newCity = [];
+      if (savedCities !== null) {
+        newCity = savedCities
+      }
       
+      if (!newCity.includes(city)){
+        newCity.push(city)
+        localStorage.setItem('savedCities', JSON.stringify(newCity))
+      }
       
+      console.log('This is the city: ', newCity)
+
+      displayWeather(lat, lon) 
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error)
