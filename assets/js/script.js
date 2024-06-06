@@ -42,46 +42,54 @@ function convertDate(unixTimestamp) {
 }
 
 function displayForecast(filteredForecast) {
-  const display= document.getElementById('forecast-container')
-  display.innerHTML = ''
+  const forecastContainer = document.getElementById('forecast-container')
+  forecastContainer.innerHTML = ''
 
+  let fiveDayContainer = document.createElement('div')
+  fiveDayContainer.classList = 'd-flex'
+  
   for (let i = 0; i < filteredForecast.length; i++) {
     let forecast = filteredForecast[i]
     let dateOne = forecast.dt
     dateOne = convertDate(dateOne)
 
+    
     let cardContainer = document.createElement('div')
     let cardBody = document.createElement('div')
+    cardBody.classList = 'card-body'
     let date = document.createElement('h5')
+    date.classList = 'date card-title mb-4 text-nowrap'
     let icon = document.createElement('img')
+    icon.src = `https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`
+    icon.alt = forecast.weather[0].description
     let temp = document.createElement('h6')
+    temp.classList = 'temp card-subtitle mb-4 text-muted text-nowrap'
+    temp.textContent = `Temp: ${forecast.main.temp} °F`
     let wind = document.createElement('h6')
+    wind.classList = 'wind card-subtitle mb-4 text-muted text-nowrap'
+    wind.textContent = `Wind: ${forecast.wind.speed} MPH`
     let humi = document.createElement('h6')
+    humi.classList = 'humi card-subtitle text-muted text-nowrap'
+    humi.textContent = `Humidity: ${forecast.main.humidity} %`
+    
     if (i === 0) {
       cardContainer.classList = 'card container col-12 mb-4'
       date.textContent = `${JSON.parse(localStorage.getItem('currentCity'))} (${dateOne})`
       icon.classList = 'icon'
       cardBody.append(date)
-      date.append(icon)  
+      date.append(icon) 
+      forecastContainer.append(cardContainer)
+      forecastContainer.append(fiveDayContainer) 
     } else {
       cardContainer.classList = 'card container col-lg-2 col-12 m-0'
       date.textContent = `${dateOne}`
       icon.classList = 'icon mb-4'
       cardBody.append(date)
       cardBody.append(icon)
+      fiveDayContainer.append(cardContainer)
     }
-    cardBody.classList = 'card-body'
-    date.classList = 'date card-title mb-4 text-nowrap'
-    icon.src = `https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`
-    icon.alt = forecast.weather[0].description
-    temp.classList = 'temp card-subtitle mb-4 text-muted text-nowrap'
-    temp.textContent = `Temp: ${forecast.main.temp} °F`
-    wind.classList = 'wind card-subtitle mb-4 text-muted text-nowrap'
-    wind.textContent = `Wind: ${forecast.wind.speed} MPH`
-    humi.classList = 'humi card-subtitle text-muted text-nowrap'
-    humi.textContent = `Humidity: ${forecast.main.humidity} %`
     
-    display.append(cardContainer)
+    
     cardContainer.append(cardBody)
     cardBody.append(temp)
     cardBody.append(wind)
@@ -101,7 +109,7 @@ function filterForecastList(forecastList) {
     dateOne = convertDate(dateOne)
     
     if (dateOne !== dateTwo) {
-      if (i === 0 || time === '15:00:00') {
+      if (i === 0 || time === '00:00:00') {
         dateTwo = dateOne
         filteredForecast.push(forecastList[i])
       }
