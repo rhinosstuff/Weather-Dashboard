@@ -1,6 +1,6 @@
 let savedCities = JSON.parse(localStorage.getItem('savedCities'))
 
-// Searches OpenWeather Geocoder API base on 'City Name'
+// Searches OpenWeather Geocoder API based on 'City Name'
 function findCity(cityQuery) {
   const limit =  1
   const apiKey = '0f0384b7e7c02ebf2aa05a20848b3b55'
