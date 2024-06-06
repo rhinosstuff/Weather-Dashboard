@@ -1,3 +1,6 @@
+const main = document.querySelector('main')
+const forecastContainer = document.getElementById('forecast-container')
+
 let currentCity = JSON.parse(localStorage.getItem('currentCity'))
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -26,33 +29,15 @@ function renderForecast() {
   findCity(city)
 }
 
-function convertDate(unixTimestamp) {
-  // Convert to milliseconds
-  let date = new Date(unixTimestamp * 1000);
-
-  // Extract date components
-  let month = (date.getMonth() + 1).toString().padStart(2, '0');
-  let day = date.getDate().toString().padStart(2, '0');
-  let year = date.getFullYear();
-
-  // Format the date as MM/DD/YYYY
-  let formattedDate = `${month}/${day}/${year}`;
-
-  return formattedDate
-}
-
 function displayForecast(filteredForecast) {
-  const forecastContainer = document.getElementById('forecast-container')
   forecastContainer.innerHTML = ''
+  handleResize()
 
   let fiveDayContainer = document.createElement('div')
-  fiveDayContainer.classList = 'd-flex'
+  fiveDayContainer.classList = 'd-flex justify-content-between'
   
   for (let i = 0; i < filteredForecast.length; i++) {
     let forecast = filteredForecast[i]
-    let dateOne = forecast.dt
-    dateOne = convertDate(dateOne)
-
     
     let cardContainer = document.createElement('div')
     let cardBody = document.createElement('div')
@@ -74,7 +59,7 @@ function displayForecast(filteredForecast) {
     
     if (i === 0) {
       cardContainer.classList = 'card container col-12 mb-4'
-      date.textContent = `${JSON.parse(localStorage.getItem('currentCity'))} (${dateOne})`
+      date.textContent = `${JSON.parse(localStorage.getItem('currentCity'))} (${forecast.dt_txt.split(' ')[0]})`
       icon.classList = 'icon'
       cardBody.append(date)
       date.append(icon) 
@@ -82,7 +67,7 @@ function displayForecast(filteredForecast) {
       forecastContainer.append(fiveDayContainer) 
     } else {
       cardContainer.classList = 'card container col-lg-2 col-12 m-0'
-      date.textContent = `${dateOne}`
+      date.textContent = `${forecast.dt_txt.split(' ')[0]}`
       icon.classList = 'icon mb-4'
       cardBody.append(date)
       cardBody.append(icon)
@@ -103,18 +88,21 @@ function filterForecastList(forecastList) {
   
   for (let i = 0; i < forecastList.length; i++) {
     let forecast = forecastList[i]
-    let dateOne = forecast.dt
-    let time = forecast.dt_txt.split(' ')[1]
+    let [date, time] = forecast.dt_txt.split(' ')
 
-    dateOne = convertDate(dateOne)
-    
-    if (dateOne !== dateTwo) {
+    if (date !== dateTwo) {
+      let dateSplit = date.split('-')
+      let formatedDate = `${dateSplit[2]}/${dateSplit[1]}/${dateSplit[0]}`
+
+      forecast.dt_txt = `${formatedDate} ${time}`
+
       if (i === 0 || time === '00:00:00') {
-        dateTwo = dateOne
-        filteredForecast.push(forecastList[i])
+        dateTwo = date
+        filteredForecast.push(forecast)
       }
     } 
   }
+  localStorage.setItem('filteredForecast', JSON.stringify(filteredForecast)) // remove when done
   console.log(filteredForecast)
   displayForecast(filteredForecast)
 }
@@ -124,6 +112,31 @@ function displaySavedCities () {
   
 }
 
+function handleResize() {
+  // Get the new width and height of the window
+  const width = window.innerWidth
+  const height = window.innerHeight
+
+  if (width < 1400) {
+    main.className = 'container d-flex flex-column m-0 mw-100'
+  } else {
+    main.className = 'container d-flex flex-row m-0 mw-100'
+  }
+
+  if (width < 1000) {
+
+  }
+  
+  
+  // Log the new dimensions (or perform any other actions)
+  console.log(`Width: ${width}, Height: ${height}`)
+}
+
+// Add the event listener for window resize
+window.addEventListener('resize', handleResize)
+
 document.addEventListener('DOMContentLoaded', function () {
-  renderForecast()
+  displayForecast(JSON.parse(localStorage.getItem('filteredForecast')))
+  // renderForecast()
+  // console.log(JSON.parse(localStorage.getItem('filteredForecast')))
 })
