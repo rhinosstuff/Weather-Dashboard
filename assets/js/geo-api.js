@@ -1,4 +1,5 @@
-let savedCities = JSON.parse(localStorage.getItem('savedCities'))
+let SAVED_CITIES = JSON.parse(localStorage.getItem('savedCities')) || []
+let CURRENT_CITY = JSON.parse(localStorage.getItem('currentCity'))
 
 // Searches OpenWeather Geocoder API based on 'City Name'
 function findCity(cityQuery) {
@@ -24,16 +25,13 @@ function findCity(cityQuery) {
       let lat = newCity.lat.toString()
       let lon = newCity.lon.toString()
 
-      if (savedCities !== null) {
-        if (!savedCities.includes(city)){
-          savedCities.push(city) 
-        } 
-      } else {
-        savedCities = [city]
+      if (!SAVED_CITIES.includes(city)) {
+        SAVED_CITIES.push(city);
       }
-      localStorage.setItem('savedCities', JSON.stringify(savedCities))
+      
+      localStorage.setItem('savedCities', JSON.stringify(SAVED_CITIES))
       localStorage.setItem('currentCity', JSON.stringify(city))
-
+      
       getForecast(lat, lon) 
 
       data.forEach(data => console.log(`${data.name}, ${data.state}`))
