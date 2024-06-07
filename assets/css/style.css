@@ -1,25 +1,46 @@
-.search-container {
-  width: 300px;
-}
-
-.card.container {
- min-width: max-content;
-}
-
-.card-body {
+header{
+  color: white;
+  background-color: rgb(47, 47, 219);
+  background-image: linear-gradient(to right, white , blue);
+  text-align: right;
+  padding: 5px 25px 5px 5px;
 
 }
 
-.card-title {
-
+main {
+  min-width: max-content;
 }
 
-.card-subtitle {
-
+.borderLine {
+  border-top: solid;
+  border-color: darkgray;
 }
 
-@media (width <= 1500px) {
+.city-delete {
+  display: none;
+}
+
+.city-button:hover .city-delete{
+  display: inline;
+}
+
+#future-day-container {
+  background-color: rgb(47, 47, 219);
+  color: rgb(229, 219, 219);
+}
+
+#future-day-card h6 {
+  color: rgb(229, 219, 219);
+}
+
+@media (width <= 1400px) {
   main {
+    flex-direction: column;
+  }
+}
+
+@media (width <= 992px) {
+  .future-days {
     flex-direction: column;
   }
 }
