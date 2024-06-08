@@ -1,8 +1,14 @@
-const cityButtons = document.getElementById('city-buttons')
+const CITY_BUTTONS = document.getElementById('city-buttons')
 
+// Dynamically displays the city forecast elements
+// Resets the forecastContainer innerHTML everytime the function is called
+// The current-day container is displayed differently then the future-day-card
+// Resets the CITY_BUTTONS innerHTML then calls the displaySavedCities() 
 function displayForecast(filteredForecast) {
   let currentCity = JSON.parse(localStorage.getItem('currentCity'))
+  let currentState = JSON.parse(localStorage.getItem('currentState'))
   const forecastContainer = document.getElementById('forecast-container')
+  
   forecastContainer.innerHTML = ''
 
   let fiveDayContainer = document.createElement('div')
@@ -14,17 +20,22 @@ function displayForecast(filteredForecast) {
     let cardContainer = document.createElement('div')
     let cardBody = document.createElement('div')
     cardBody.classList = 'card-body'
+    
     let date = document.createElement('h5')
     date.classList = 'date card-title mb-4 text-nowrap'
+    
     let icon = document.createElement('img')
     icon.src = `https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`
     icon.alt = forecast.weather[0].description
+    
     let temp = document.createElement('h6')
     temp.classList = 'temp card-subtitle mb-4 text-nowrap'
     temp.textContent = `Temp: ${forecast.main.temp} °F`
+    
     let wind = document.createElement('h6')
     wind.classList = 'wind card-subtitle mb-4 text-nowrap'
     wind.textContent = `Wind: ${forecast.wind.speed} MPH`
+    
     let humi = document.createElement('h6')
     humi.classList = 'humi card-subtitle text-nowrap'
     humi.textContent = `Humidity: ${forecast.main.humidity} %`
@@ -32,7 +43,7 @@ function displayForecast(filteredForecast) {
     if (i === 0) {
       cardContainer.classList = 'current-day card container col-12 mb-4'
       date.classList = 'date card-title mb-4 text-nowrap h2'
-      date.textContent = `${currentCity} (${forecast.dt_txt.split(' ')[0]})`
+      date.textContent = `${currentCity}, ${currentState} (${forecast.dt_txt.split(' ')[0]})`
       icon.classList = 'icon'
       cardBody.append(date)
       date.append(icon) 
@@ -50,16 +61,19 @@ function displayForecast(filteredForecast) {
       fiveDayContainer.append(cardContainer)
     }
     
-    
     cardContainer.append(cardBody)
     cardBody.append(temp)
     cardBody.append(wind)
     cardBody.append(humi)
   }
-  cityButtons.innerHTML = ''
+  CITY_BUTTONS.innerHTML = ''
   displaySavedCities()
 }
 
+// Filters the returned data from the getForecast() on weather-api.js
+// Filters based on the date & time so that there is only one entry per date then stores it in new array
+// The first entry in the recieved data will always pe stored as the current date regardless of time
+// Then calls displayForecast()
 function filterForecastList(forecastList) {
   let previousDate = '0000-00-00'
   let filteredForecast = []
@@ -83,6 +97,8 @@ function filterForecastList(forecastList) {
   displayForecast(filteredForecast)
 }
 
+//Dynamically displays the previous searched for cities
+ 
 function displaySavedCities () {
   let cities = SAVED_CITIES
   cities.forEach(city => {
@@ -95,7 +111,7 @@ function displaySavedCities () {
     cityDelete.classList = 'city-delete ms-auto px-2'
     cityDelete.textContent = 'x'
 
-    cityButtons.append(cityButton)
+    CITY_BUTTONS.append(cityButton)
     cityButton.append(cityDelete)
 
     // Add event listener for saved city click
@@ -122,13 +138,8 @@ function removeCity(city) {
   localStorage.setItem('savedCities', JSON.stringify(cities))
   SAVED_CITIES = JSON.parse(localStorage.getItem('savedCities'))
 
-  cityButtons.innerHTML = ''
+  CITY_BUTTONS.innerHTML = ''
   displaySavedCities()
-}
-
-function renderForecast() {
-  let city = CURRENT_CITY !== null ? CURRENT_CITY : 'St George'
-  findCity(city)
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -139,9 +150,12 @@ document.addEventListener('DOMContentLoaded', function() {
       event.stopPropagation()
 
       if (form.checkValidity()) {
-          let cityName = document.getElementById('city-name').value.trim()
-          findCity(cityName)
-          document.getElementById('city-name').value = ''
+          let cityInput = document.getElementById('city-input').value.trim()
+          let stateInput = document.getElementById('state-input').value
+          let countryInput = document.getElementById('country-input').value
+          findCity(cityInput, stateInput, countryInput)
+          document.getElementById('city-input').value = ''
+          document.getElementById('state-input').value = ''
           form.classList.remove('was-validated')
       } else {
           form.classList.add('was-validated')
@@ -150,5 +164,5 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 document.addEventListener('DOMContentLoaded', function () {
-  renderForecast()
+  findCity(CURRENT_CITY, CURRENT_STATE, CURRENT_COUNTRY)
 })

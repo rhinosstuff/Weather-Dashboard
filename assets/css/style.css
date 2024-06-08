@@ -1,8 +1,9 @@
 header{
   color: white;
-  background-color: rgb(47, 47, 219);
-  background-image: linear-gradient(to right, white , blue);
+  background-color: #1C5D99;
+  background-image: linear-gradient(to right, white , #1C5D99);
   text-align: right;
+  margin-bottom: 2rem;
   padding: 5px 25px 5px 5px;
 
 }
@@ -16,6 +17,18 @@ main {
   border-color: darkgray;
 }
 
+#search-button {
+  background-color: #222222;
+}
+
+#search-button:hover {
+  background-color: #BBCDE5;
+}
+
+.city-button {
+  background-color: #BBCDE5;
+}
+
 .city-delete {
   display: none;
 }
@@ -24,13 +37,19 @@ main {
   display: inline;
 }
 
+.current-day {
+  background-color: #F39A9D;
+  background-image: linear-gradient(to bottom, white , #BBCDE5);
+}
+
 #future-day-container {
-  background-color: rgb(47, 47, 219);
-  color: rgb(229, 219, 219);
+  background-color: #1C5D99;
+  background-image: linear-gradient(to bottom, #1C5D99 , #F39A9D);
+  color: white;
 }
 
 #future-day-card h6 {
-  color: rgb(229, 219, 219);
+  color: white;
 }
 
 @media (width <= 1400px) {
