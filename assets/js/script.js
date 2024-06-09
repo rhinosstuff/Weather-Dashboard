@@ -115,7 +115,7 @@ function displaySavedCities () {
     cityButton.addEventListener('click', function(event) {
       event.preventDefault()
       event.stopPropagation()
-      findCity(city.name, city.state, city.country)  
+      getForecast(city.lat, city.lon)  
     })
 
     cityDelete.addEventListener('click', function(event) {
