@@ -12,59 +12,54 @@ function displayForecast(filteredForecast) {
   forecastContainer.innerHTML = ''
 
   let fiveDayContainer = document.createElement('div')
-  fiveDayContainer.classList = 'future-days d-flex justify-content-between gap-2'
+  fiveDayContainer.classList = 'five-day-container d-flex justify-content-between gap-3'
   
   for (let i = 0; i < filteredForecast.length; i++) {
     let forecast = filteredForecast[i]
     
     let cardContainer = document.createElement('div')
-    let cardBody = document.createElement('div')
-    cardBody.classList = 'card-body'
     
     let date = document.createElement('h5')
-    date.classList = 'date card-title mb-4 text-nowrap'
+    date.classList = 'date mb-4 text-nowrap'
     
     let icon = document.createElement('img')
     icon.src = `https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`
     icon.alt = forecast.weather[0].description
+    icon.style = 'width: 50px'
     
     let temp = document.createElement('h6')
-    temp.classList = 'temp card-subtitle mb-4 text-nowrap'
+    temp.classList = 'temp mb-4 text-nowrap'
     temp.textContent = `Temp: ${forecast.main.temp} °F`
     
     let wind = document.createElement('h6')
-    wind.classList = 'wind card-subtitle mb-4 text-nowrap'
+    wind.classList = 'wind mb-4 text-nowrap'
     wind.textContent = `Wind: ${forecast.wind.speed} MPH`
     
     let humi = document.createElement('h6')
-    humi.classList = 'humi card-subtitle text-nowrap'
+    humi.classList = 'humi text-nowrap'
     humi.textContent = `Humidity: ${forecast.main.humidity} %`
     
     if (i === 0) {
-      cardContainer.classList = 'current-day card container col-12 mb-4'
-      date.classList = 'date card-title mb-4 text-wrap h2'
-      date.textContent = `${currentCity}, ${currentState} - ${forecast.dt_txt.split(' ')[0]}`
+      cardContainer.classList = 'current-day card card-body col-12 mb-4'
+      date.classList = 'date mb-4 text-wrap h2'
+      date.textContent = `${currentCity}, ${currentState} (${forecast.dt_txt.split(' ')[0]})`
       icon.classList = 'icon'
-      cardBody.append(date)
+      cardContainer.append(date)
       date.append(icon) 
       forecastContainer.append(cardContainer)
       forecastContainer.append(fiveDayContainer) 
     } else {
-      cardContainer.classList = 'card container m-0'
-      cardContainer.id = 'future-day-container'
-      cardBody.classList = 'card-body'
-      cardBody.id = 'future-day-card'
+      cardContainer.classList = 'future-day card card-body'
       date.textContent = `${forecast.dt_txt.split(' ')[0]}`
       icon.classList = 'icon mb-4'
-      cardBody.append(date)
-      cardBody.append(icon)
+      cardContainer.append(date)
+      cardContainer.append(icon)
       fiveDayContainer.append(cardContainer)
     }
     
-    cardContainer.append(cardBody)
-    cardBody.append(temp)
-    cardBody.append(wind)
-    cardBody.append(humi)
+    cardContainer.append(temp)
+    cardContainer.append(wind)
+    cardContainer.append(humi)
   }
   CITY_BUTTONS.innerHTML = ''
   displaySavedCities()
@@ -103,6 +98,7 @@ function filterForecastList(forecastList) {
 // cityDelete will call removeCity() removing city button
 function displaySavedCities () {
   let cities = SAVED_CITIES
+  
   cities.forEach(city => {
     let cityButton = document.createElement('button')
     cityButton.classList = 'city-button btn btn-secondary d-flex align-self-center mb-2 p-2 col-12'
@@ -134,7 +130,9 @@ function displaySavedCities () {
 // Checks to see which city was clicked and removes it from SAVED_CITIES
 function removeCity(city) {
   let cities = SAVED_CITIES
+  
   cities = cities.filter(c => !(c.name === city.name && c.state === city.state))
+  
   localStorage.setItem('savedCities', JSON.stringify(cities))
   SAVED_CITIES = JSON.parse(localStorage.getItem('savedCities'))
 

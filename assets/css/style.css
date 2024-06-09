@@ -1,20 +1,11 @@
-header{
+header {
   color: white;
   background-color: #1C5D99;
   background-image: linear-gradient(to right, white , #1C5D99);
-  text-align: right;
-  margin-bottom: 2rem;
-  padding: 5px 25px 5px 5px;
-
-}
-
-.borderLine {
-  border-top: solid;
-  border-color: darkgray;
 }
 
 #search-button {
-  background-color: #222222;
+  background-color: #1C5D99;
 }
 
 .city-button {
@@ -25,34 +16,41 @@ header{
   display: none;
 }
 
-.city-delete{
-  display: inline;
-}
-
 .current-day {
-  background-color: #F39A9D;
-  background-image: linear-gradient(to bottom, white , #BBCDE5);
+  background-color: #BBCDE5;
+  background-image: linear-gradient(to bottom, #BBCDE5, white);
 }
 
-#future-day-container {
+.future-day {
   background-color: #1C5D99;
   background-image: linear-gradient(to bottom, #1C5D99 , #F39A9D);
   color: white;
 }
 
-#future-day-card h6 {
-  color: white;
-}
-
 @media (hover: hover) {
   #search-button:hover {
-    background-color: #BBCDE5;
+    background-color: #F39A9D;
   }
-  
+
   .city-button:hover .city-delete{
     display: inline;
   }
+}
 
+@media (hover: none) {
+  .city-button {
+    background-color: #BBCDE5;
+  }
+
+  .city-delete{
+    display: inline;
+  }
+}
+
+@media (width > 992px) {
+  header {
+    justify-content: end;
+  }
 }
 
 @media (width <= 1400px) {
@@ -62,7 +60,11 @@ header{
 }
 
 @media (width <= 992px) {
-  .future-days {
+  .five-day-container {
     flex-direction: column;
+  }
+
+  header {
+    justify-content: center;
   }
 }
