@@ -7,7 +7,7 @@ let CURRENT_COUNTRY = JSON.parse(localStorage.getItem('currentCountry'))
 function findCity(cityQuery, stateQuery, countryQuery) {
   const limit =  1
   const apiKey = '0f0384b7e7c02ebf2aa05a20848b3b55'
-  const geoUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityQuery},${stateQuery},${countryQuery}&limit=${limit}&appid=${apiKey}`
+  const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityQuery},${stateQuery},${countryQuery}&limit=${limit}&appid=${apiKey}`
 
   fetch(geoUrl)
     .then(response => {
