@@ -23,8 +23,8 @@ What I needed to impliment:
     Select the appropriate State
     The country is predefinded as US (maybe change that later)
     Click the search button.
-    You will see a forecast displayed for you searched city.
-    A new button with your searched city will also display below the search button
+    You will see a forecast displayed for the searched city.
+    A new button with the searched city will also display below the search button
     This button when clicked will refresh and display the forecast again.
     You can also delete the button if you no longer want that city to display.
 
