@@ -1,9 +1,9 @@
-const SAVED_CITIES = JSON.parse(localStorage.getItem('savedCities')) || []
-const CURRENT_CITY = JSON.parse(localStorage.getItem('currentCity'))
-const CURRENT_STATE = JSON.parse(localStorage.getItem('currentState'))
-const CURRENT_COUNTRY = JSON.parse(localStorage.getItem('currentCountry'))
+let SAVED_CITIES = JSON.parse(localStorage.getItem('savedCities')) || []
+let CURRENT_CITY = JSON.parse(localStorage.getItem('currentCity'))
+let CURRENT_STATE = JSON.parse(localStorage.getItem('currentState'))
+let CURRENT_COUNTRY = JSON.parse(localStorage.getItem('currentCountry'))
 
-// Searches OpenWeather Geocoder API based on 'City Name'
+// Searches OpenWeather Geocoder API based on 'City Name, State, Country'
 function findCity(cityQuery, stateQuery, countryQuery) {
   const limit =  1
   const apiKey = '0f0384b7e7c02ebf2aa05a20848b3b55'
@@ -22,26 +22,30 @@ function findCity(cityQuery, stateQuery, countryQuery) {
         return
       }
 
-      let newCity = data[0];
-      let city = newCity.name
-      let lat = newCity.lat.toString()
-      let lon = newCity.lon.toString()
+      let newCity = {
+        name: data[0].name,
+        state: data[0].state,
+        stateCode: stateQuery,
+        country: data[0].country,
+        lat: data[0].lat.toString(),
+        lon: data[0].lon.toString()
+      }
 
-      
+      // Displays city information in console
+      console.log(newCity)
 
-      if (!SAVED_CITIES.includes(city)) {
-        SAVED_CITIES.push(city);
+      let cityExists = SAVED_CITIES.some(city => city.name === newCity.name && city.state === newCity.state)
+
+      if (!cityExists) {
+        SAVED_CITIES.push(newCity)
       }
       
       localStorage.setItem('savedCities', JSON.stringify(SAVED_CITIES))
-      localStorage.setItem('currentCity', JSON.stringify(city))
-      localStorage.setItem('currentState', JSON.stringify(stateQuery))
-      localStorage.setItem('currentCountry', JSON.stringify(countryQuery))
+      localStorage.setItem('currentCity', JSON.stringify(newCity.name))
+      localStorage.setItem('currentState', JSON.stringify(newCity.state))
+      localStorage.setItem('currentCountry', JSON.stringify(newCity.country))
       
-      getForecast(lat, lon) 
-
-      data.forEach(item => console.log(item))
-      data.forEach(data => console.log(`${data.name}, ${data.state}`))
+      getForecast(newCity.lat, newCity.lon)
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error)

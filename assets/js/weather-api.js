@@ -17,8 +17,6 @@ function getForecast(lat, lon) {
       }
       
       filterForecastList(data.list)
-      // let daysList = data.list
-      // daysList.forEach(day => console.log(day));
     })
     .catch(error => {
       // Handle any errors that occurred during the fetch
