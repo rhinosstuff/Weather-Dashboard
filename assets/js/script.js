@@ -7,8 +7,8 @@ const CITY_BUTTONS = document.getElementById('city-buttons')
 function displayForecast(filteredForecast) {
   let currentCity = JSON.parse(localStorage.getItem('currentCity'))
   let currentState = JSON.parse(localStorage.getItem('currentState'))
-  const forecastContainer = document.getElementById('forecast-container')
   
+  const forecastContainer = document.getElementById('forecast-container')
   forecastContainer.innerHTML = ''
 
   let fiveDayContainer = document.createElement('div')
@@ -89,7 +89,7 @@ function filterForecastList(forecastList) {
   })
 
   // Displays forecast information in console
-  console.log(filteredForecast)
+  console.log('Filtered Forecast: ', filteredForecast)
   displayForecast(filteredForecast)
 }
 

@@ -25,14 +25,10 @@ function findCity(cityQuery, stateQuery, countryQuery) {
       let newCity = {
         name: data[0].name,
         state: data[0].state,
-        stateCode: stateQuery,
         country: data[0].country,
         lat: data[0].lat.toString(),
         lon: data[0].lon.toString()
       }
-
-      // Displays city information in console
-      console.log(newCity)
 
       let cityExists = SAVED_CITIES.some(city => city.name === newCity.name && city.state === newCity.state)
 
@@ -45,6 +41,8 @@ function findCity(cityQuery, stateQuery, countryQuery) {
       localStorage.setItem('currentState', JSON.stringify(newCity.state))
       localStorage.setItem('currentCountry', JSON.stringify(newCity.country))
       
+      // Displays city information in console
+      console.log('findCity() Results: ', newCity)
       getForecast(newCity.lat, newCity.lon)
     })
     .catch(error => {
