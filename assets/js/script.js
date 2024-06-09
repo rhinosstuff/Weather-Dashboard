@@ -93,19 +93,21 @@ function filterForecastList(forecastList) {
     }
   })
 
+  // Displays forecast information in console
   console.log(filteredForecast)
   displayForecast(filteredForecast)
 }
 
-//Dynamically displays the previous searched for cities
- 
+// Dynamically displays the previous searched for cities
+// cityButton will call findCity() updating displayed forecast
+// cityDelete will call removeCity() removing city button
 function displaySavedCities () {
   let cities = SAVED_CITIES
   cities.forEach(city => {
     let cityButton = document.createElement('button')
     cityButton.classList = 'city-button btn btn-secondary d-flex align-self-center mb-2 p-2 col-12'
     cityButton.type = 'button'
-    cityButton.textContent = city
+    cityButton.textContent = `${city.name}, ${city.state}`
 
     let cityDelete = document.createElement('span')
     cityDelete.classList = 'city-delete ms-auto px-2'
@@ -114,27 +116,25 @@ function displaySavedCities () {
     CITY_BUTTONS.append(cityButton)
     cityButton.append(cityDelete)
 
-    // Add event listener for saved city click
-    // Call findCity with the city name
     cityButton.addEventListener('click', function(event) {
       event.preventDefault()
       event.stopPropagation()
-      findCity(city)  
+      findCity(city.name, city.state, city.country)  
     })
 
-    // Add event listener for saved city delete
-    // Call removeCity with the city name & refresh the list after deletion
     cityDelete.addEventListener('click', function(event) {
       event.preventDefault()
       event.stopPropagation()
+      console.log('Remove: ', city)
       removeCity(city)
     })
   }) 
 }
 
+// Checks to see which city was clicked and removes it from SAVED_CITIES
 function removeCity(city) {
   let cities = SAVED_CITIES
-  cities = cities.filter(c => c !== city)
+  cities = cities.filter(c => !(c.name === city.name && c.state === city.state))
   localStorage.setItem('savedCities', JSON.stringify(cities))
   SAVED_CITIES = JSON.parse(localStorage.getItem('savedCities'))
 
@@ -142,6 +142,7 @@ function removeCity(city) {
   displaySavedCities()
 }
 
+// Checks to make sure valid data was entered into form before submitting
 document.addEventListener('DOMContentLoaded', function() {
   let form = document.querySelector('.needs-validation')
   
@@ -163,6 +164,11 @@ document.addEventListener('DOMContentLoaded', function() {
   }, false)
 })
 
+// Initializes page, if no previous local storage searches runs a default search
 document.addEventListener('DOMContentLoaded', function () {
-  findCity(CURRENT_CITY, CURRENT_STATE, CURRENT_COUNTRY)
+  if (CURRENT_CITY !== null) {
+    findCity(CURRENT_CITY, CURRENT_STATE, CURRENT_COUNTRY)
+  } else {
+    findCity('St. George', 'UT', 'US') 
+  } 
 })

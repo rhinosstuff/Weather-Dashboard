@@ -20,7 +20,7 @@
       <form class="needs-validation" novalidate>
         <div class="pt-3">
           <label for="city-input" class="form-label h2">Search for a City:</label>
-          <input type="text" class="form-control" id="city-input" required>
+          <input type="text" class="form-control" id="city-input" placeholder="City Name..." required>
           <div class="invalid-feedback">
             Please provide a valid city.
           </div>
@@ -100,11 +100,13 @@
       <!-- Just a line for aesthetics -->
       <div class="borderLine mb-3 col-12"></div>
 
+      <!-- Container for previous searched cities -->
       <div id="city-buttons" class="d-flex flex-column justify-content-center mb-3">
         <!-- Dynamically displayed -->
       </div>
     </div>
 
+    <!-- Container for current searched forecast -->
     <div id="forecast-container" class="container">
         <!-- Dynamically displayed -->
     </div>
