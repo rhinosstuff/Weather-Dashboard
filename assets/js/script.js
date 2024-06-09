@@ -42,7 +42,7 @@ function displayForecast(filteredForecast) {
     
     if (i === 0) {
       cardContainer.classList = 'current-day card container col-12 mb-4'
-      date.classList = 'date card-title mb-4 text-nowrap h2'
+      date.classList = 'date card-title mb-4 text-wrap h2'
       date.textContent = `${currentCity}, ${currentState} (${forecast.dt_txt.split(' ')[0]})`
       icon.classList = 'icon'
       cardBody.append(date)
