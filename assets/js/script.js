@@ -43,7 +43,7 @@ function displayForecast(filteredForecast) {
     if (i === 0) {
       cardContainer.classList = 'current-day card container col-12 mb-4'
       date.classList = 'date card-title mb-4 text-wrap h2'
-      date.textContent = `${currentCity}, ${currentState} (${forecast.dt_txt.split(' ')[0]})`
+      date.textContent = `${currentCity}, ${currentState} - ${forecast.dt_txt.split(' ')[0]}`
       icon.classList = 'icon'
       cardBody.append(date)
       date.append(icon) 
@@ -82,7 +82,7 @@ function filterForecastList(forecastList) {
     let [date, time] = forecast.dt_txt.split(' ')
     if (date !== previousDate) {
       let [year, month, day] = date.split('-')
-      let formatedDate = `${day}/${month}/${year}`
+      let formatedDate = `${month}/${day}/${year}`
 
       forecast.dt_txt = `${formatedDate} ${time}`
 

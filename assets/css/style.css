@@ -8,10 +8,6 @@ header{
 
 }
 
-/* main {
-  min-width: max-content;
-} */
-
 .borderLine {
   border-top: solid;
   border-color: darkgray;
@@ -19,10 +15,6 @@ header{
 
 #search-button {
   background-color: #222222;
-}
-
-#search-button:hover {
-  background-color: #BBCDE5;
 }
 
 .city-button {
@@ -33,7 +25,7 @@ header{
   display: none;
 }
 
-.city-button:hover .city-delete{
+.city-delete{
   display: inline;
 }
 
@@ -50,6 +42,17 @@ header{
 
 #future-day-card h6 {
   color: white;
+}
+
+@media (hover: hover) {
+  #search-button:hover {
+    background-color: #BBCDE5;
+  }
+  
+  .city-button:hover .city-delete{
+    display: inline;
+  }
+
 }
 
 @media (width <= 1400px) {
